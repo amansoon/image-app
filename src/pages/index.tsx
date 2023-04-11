@@ -21,19 +21,22 @@ export default function Home() {
   }, []);
 
   const fetchPhotos = () => {
-    unsplash.search.getPhotos({
-      query: "dog",
-      page,
-      perPage,
-    }).then((result) => {
-      console.log(result)
-      if(result.status === 200) {
-        setPhotos([...photos, ...(result.response.results)]);
-        setPage(page + 1);
-      }
-    }).catch((info) => {
-      console.log(info)
-    })
+    unsplash.search
+      .getPhotos({
+        query: "dog",
+        page,
+        perPage,
+      })
+      .then((result) => {
+        console.log(result);
+        if (result.status === 200) {
+          setPhotos([...photos, ...result.response.results]);
+          setPage(page + 1);
+        }
+      })
+      .catch((info) => {
+        console.log(info);
+      });
   };
 
   useBottomScrollListener(() => {
@@ -42,7 +45,44 @@ export default function Home() {
 
   return (
     <Layout>
-      <Gallery photos={photos} />
+      <div className="px-[20px] lg:px-[30px] py-[30px]">
+        <div className="w-full max-w-[1280px] mx-auto">
+          <div className="flex mb-8">
+            <Tabs />
+          </div>
+          <Gallery photos={photos} />
+        </div>
+      </div>
     </Layout>
   );
 }
+
+const Tabs = () => {
+  const tabs = [
+    {
+      id: 1,
+      text: "Photos",
+    },
+    {
+      id: 2,
+      text: "Collections",
+    },
+    {
+      id: 3,
+      text: "Users",
+    },
+  ];
+
+  const [current, setCurrent] = useState(1)
+
+  return (
+    <div className="flex">
+      {tabs.map(({id, text}) => (
+        <button key={id} className={`px-5 py-4 leading-none rounded-full ${current === id ? "bg-black" : "bg-transparent"}`} onClick={() => setCurrent(id)} >
+          <span className={`mr-2 ${current === id ? "text-white" : "text-gray-800"}`}> {text} </span>
+          <span className="text-gray-400"> 203K </span>
+        </button>
+      ))}
+    </div>
+  );
+};

@@ -9,13 +9,13 @@ type Props = {
 
 const breakpointColumnsObj = {
   default: 3,
-  900: 2,
-  500: 1,
+  860: 2,
+  560: 1,
 };
 
 function Gallery({ photos }: Props) {
   return (
-    <div className="max-w-[1200px] w-full px-6 mx-auto">
+    <div className="w-full">
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid"
