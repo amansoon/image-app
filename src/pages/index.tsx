@@ -12,7 +12,6 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const unsplash = createApi({
     accessKey: process.env.NEXT_PUBLIC_API_KEY as string,
-    // apiUrl: 'https://mywebsite.com/unsplash-proxy',
   });
   const [photos, setPhotos] = useState<object[]>([]);
   const [page, setPage] = useState(1);
