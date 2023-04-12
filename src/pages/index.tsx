@@ -2,47 +2,60 @@ import { Inter } from "next/font/google";
 import { createApi } from "unsplash-js";
 import Layout from "@/components/Layout";
 import Gallery from "@/components/Gallery";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
 import { Filter } from "react-feather";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useAppContext } from "@/context/context";
+import { ActionType } from "@/@types/appglobal";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const { state, dispatch } = useAppContext();
+  const { feed, isFetchingPhotos, feedPage } = state;
+
   const unsplash = createApi({
     accessKey: process.env.NEXT_PUBLIC_API_KEY as string,
   });
-  const [photos, setPhotos] = useState<object[]>([]);
-  const [page, setPage] = useState(1);
+
   const perPage = 15;
 
   useEffect(() => {
     fetchPhotos();
-  }, []);
-
-  const fetchPhotos = () => {
-    unsplash.search
-      .getPhotos({
-        query: "dog",
-        page,
-        perPage,
-      })
-      .then((result) => {
-        console.log(result);
-        if (result.status === 200) {
-          setPhotos([...photos, ...result.response.results]);
-          setPage(page + 1);
-        }
-      })
-      .catch((info) => {
-        console.log(info);
-      });
-  };
+  }, [])
 
   useBottomScrollListener(() => {
     fetchPhotos();
   });
+
+  const fetchPhotos = () => {
+    if (!isFetchingPhotos) {
+      dispatch({ type: ActionType.SET_FETCHING_PHOTOS, payload: true });
+      unsplash.photos
+        .list({
+          page: feedPage + 1,
+          perPage,
+        })
+        .then((result) => {
+          console.log(result);
+          if (result.status === 200 && result.type === "success") {
+            const payload = feedPage === 0 ? result.response.results : [...feed, ...result.response.results];
+            dispatch({ type: ActionType.SET_FEED, payload: payload });
+          } else {
+            console.log(result.errors);
+          }
+        })
+        .catch((info) => {
+          console.log(info);
+        });
+    }
+  };
+
+  useEffect(() => {
+    console.log("Feeds : ", feed);
+  }, [feed]);
 
   const topics = [
     {
@@ -91,28 +104,26 @@ export default function Home() {
     <Layout>
       <div className="px-[20px] lg:px-[30px]">
         <div className="w-full max-w-[1280px] mx-auto">
-
           {/* ------- keywords -------- */}
           <div className="w-full overflow-auto">
             <div className="flex gap-2 py-2 mt-4 bg-white">
               {topics.map(({ id, text }) => (
-                <Link href={""} className="h-[42px] flex items-center px-4 font-medium leading-none hover:bg-slate-50 border rounded" key={id}>
+                <Link
+                  href={""}
+                  className="h-[42px] flex items-center px-4 font-medium leading-none hover:bg-slate-50 border rounded"
+                  key={id}
+                >
                   <span> {text} </span>
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* ---------- */}
-          <div className="mt-12 mb-12">
-             <h1 className="text-5xl font-semibold"> Nature Images </h1>
-          </div>
-
           {/* ------- */}
           <Tabs />
 
           {/* ------- gallery --------- */}
-          <Gallery photos={photos} />
+          <Gallery photos={feed} />
         </div>
       </div>
     </Layout>

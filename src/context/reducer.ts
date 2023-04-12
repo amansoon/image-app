@@ -4,19 +4,23 @@ export function reducer(state: State, action: Action): State {
   const { type, payload } = action;
 
   if (type === ActionType.SET_QUERY) {
-    return { ...state, ...payload};
+    return { ...state, ...payload };
+  }
+
+  if (type === ActionType.RESET_QUERY) {
+    return { ...state, ...payload };
   }
 
   if (type === ActionType.SET_FETCHING_PHOTOS) {
-    return { ...state, isFetchingPhotos: payload};
+    return { ...state, isFetchingPhotos: payload };
   }
 
   if (type === ActionType.SET_FEED) {
-    return { ...state, feed: payload,  isFetchingPhotos: false};
+    return { ...state, feed: payload, feedPage: state.feedPage + 1, isFetchingPhotos: false };
   }
 
   if (type === ActionType.SET_PHOTOS) {
-    return { ...state, photos: payload, photosPage: (state.photosPage + 1), isFetchingPhotos: false };
+    return { ...state, photos: payload, photosPage: state.photosPage + 1, isFetchingPhotos: false };
   }
 
   if (type === ActionType.SET_USER) {

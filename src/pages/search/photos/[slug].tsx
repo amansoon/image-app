@@ -14,11 +14,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const { state, dispatch } = useAppContext();
-  const {photos, isFetchingPhotos, lastQuery, photosPage} = state;
+  const { photos, isFetchingPhotos, photosPage } = state;
   const router = useRouter();
 
-  const { slug } = router.query;
-  const query = slug ? (slug as string).replaceAll(/-{1,}/g, " ") : "";
+  const slug = router.query.slug as string;
 
   const unsplash = createApi({
     accessKey: process.env.NEXT_PUBLIC_API_KEY as string,
@@ -27,29 +26,29 @@ export default function Home() {
   const perPage = 15;
 
   useEffect(() => {
-    if (query !== lastQuery) {
-      dispatch({type: ActionType.SET_QUERY, payload: {lastQuery: query, photosPage: 0}})
+    if (router.isReady) {
+      console.log(window?.location)
       fetchPhotos();
     }
-  }, [query]);
+  }, [slug]);
 
   useBottomScrollListener(() => {
     fetchPhotos();
   });
 
   const fetchPhotos = () => {
-    console.log("isFetching = ", isFetchingPhotos)
     if (!isFetchingPhotos) {
+      console.log("fetching for =", slug);
       dispatch({ type: ActionType.SET_FETCHING_PHOTOS, payload: true });
       unsplash.search
         .getPhotos({
-          query: query,
+          query: router.query.slug as string,
           page: photosPage + 1,
           perPage,
         })
         .then((result) => {
+          console.log(result);
           if (result.status === 200 && result.type === "success") {
-            console.log(result.response.results)
             const payload = photosPage === 0 ? result.response.results : [...photos, ...result.response.results];
             dispatch({ type: ActionType.SET_PHOTOS, payload: payload });
           } else {
@@ -130,7 +129,7 @@ export default function Home() {
 
           {/* ---------- */}
           <div className="mt-12 mb-12">
-            <h1 className="text-5xl font-semibold"> {query} </h1>
+            <h1 className="text-5xl font-semibold"> {slug} </h1>
           </div>
 
           {/* ------- */}

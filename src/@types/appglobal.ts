@@ -16,6 +16,7 @@ export enum ActionType {
   SET_PHOTOS, 
   SET_FETCHING_PHOTOS,
   SET_QUERY,
+  RESET_QUERY,
 }
 
 export interface Action {

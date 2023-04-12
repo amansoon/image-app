@@ -1,3 +1,5 @@
+import { ActionType } from "@/@types/appglobal";
+import { useAppContext } from "@/context/context";
 import Logo from "@/icons/Logo";
 import LogoSmall from "@/icons/LogoSmall";
 import Link from "next/link";
@@ -48,16 +50,19 @@ function Header({}: Props) {
 }
 
 const SearchBar = () => {
+  const { state, dispatch } = useAppContext();
   const [text, setText] = useState<string>("");
   const router = useRouter();
 
-  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (text.trim()) {
+      const query = text.replaceAll(/\s{1,}/g, "-");
+      dispatch({ type: ActionType.RESET_QUERY, payload: { photosPage: 0, photos: [], lastQuery: query } });
       router.push({
         pathname: "/search/photos/[slug]",
-        query: { slug: text.replaceAll(/\s{1,}/g, "-") },
+        query: { slug: query },
       });
     } else {
       router.push("/");
