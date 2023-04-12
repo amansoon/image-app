@@ -13,37 +13,37 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const router = useRouter();
   const { slug } = router.query;
+  const searchQuery = slug ? (slug as string).replaceAll(/-{1,}/g, " ") : "";
 
   const unsplash = createApi({
     accessKey: process.env.NEXT_PUBLIC_API_KEY as string,
   });
+
   const [photos, setPhotos] = useState<object[]>([]);
   const [page, setPage] = useState(1);
   const perPage = 15;
 
   useEffect(() => {
+    setPhotos([]);
     if (slug) {
-      setPhotos([]);
       fetchPhotos();
     }
   }, [slug]);
 
   const fetchPhotos = () => {
-    console.log("Try to fetch for " + slug)
     unsplash.search
       .getPhotos({
-        query: slug as string,
+        query: searchQuery,
         page,
         perPage,
       })
       .then((result) => {
         console.log("new fetch", result);
-        if (result.status === 200 && result.type === 'success') {
+        if (result.status === 200 && result.type === "success") {
           setPhotos([...photos, ...result.response.results]);
           setPage(page + 1);
-        }
-        else {
-            console.log(result.errors)
+        } else {
+          console.log(result.errors);
         }
       })
       .catch((info) => {
@@ -119,7 +119,7 @@ export default function Home() {
 
           {/* ---------- */}
           <div className="mt-12 mb-12">
-            <h1 className="text-5xl font-semibold"> {slug} </h1>
+            <h1 className="text-5xl font-semibold"> {searchQuery} </h1>
           </div>
 
           {/* ------- */}

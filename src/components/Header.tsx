@@ -48,14 +48,18 @@ function Header({}: Props) {
 }
 
 const SearchBar = () => {
-  const [text, setText] = useState<string>('');
+  const [text, setText] = useState<string>("");
   const router = useRouter();
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push({
-      href: "/search/photos/[slug]",
-      query: {slug: text}
-    })
+    if (text.trim()) {
+      router.push({
+        pathname: "/search/photos/[slug]",
+        query: { slug: text.replaceAll(/\s{1,}/g, "-") },
+      });
+    } else {
+      router.push("/");
+    }
   };
 
   return (
@@ -69,7 +73,7 @@ const SearchBar = () => {
           placeholder="Search for free photos"
           className="w-full px-6 py-3 leading-none outline-none bg-transparent"
           value={text}
-          onChange={(e : React.ChangeEvent) => setText((e.target as HTMLInputElement).value)}
+          onChange={(e: React.ChangeEvent) => setText((e.target as HTMLInputElement).value)}
         />
         <button type="submit" className="flex items-center px-4 border-l">
           <Search size={20} stroke="gray" strokeWidth={1.5} />
