@@ -12,7 +12,7 @@ type Props = {
 const breakpointColumnsObj = {
   default: 3,
   860: 2,
-  560: 1,
+  480: 1,
 };
 
 function Gallery({ photos }: Props) {
@@ -36,17 +36,17 @@ type PhotoProps = {
 };
 
 function Photo({ photo }: PhotoProps) {
-  console.log(photo);
   return (
     <div className="relative rounded overflow-hidden">
       <Image
-        src={photo.urls.regular}
+        src={photo.urls.small}
         alt={photo.alt_description}
         title={photo.alt_description}
         width={photo.width}
         height={photo.height}
-        className={`w-full h-auto rounded bg-[${photo.color}]`}
-        loading="lazy"
+        className={`w-full h-auto rounded`}
+        style={{backgroundColor: photo.color}}
+        priority={true}
       />
       <Link href={""}>
         <div className="absolute inset-0 h-full w-full p-4 opacity-0 hover:opacity-100 bg-gradient-to-b from-black/20 via-transparent to-black/20">

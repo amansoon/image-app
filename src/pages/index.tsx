@@ -138,7 +138,7 @@ const Tabs = () => {
   const [current, setCurrent] = useState(1);
 
   return (
-    <div className="flex justify-between items-center mb-6">
+    <div className="flex justify-between items-center mb-6 overflow-auto">
       <div className="flex items-center gap-3">
         {tabs.map(({ id, text }) => (
           <button
