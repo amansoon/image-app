@@ -2,13 +2,14 @@ import { Inter } from "next/font/google";
 import { createApi } from "unsplash-js";
 import Layout from "@/components/Layout";
 import Gallery from "@/components/Gallery";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
-import { Filter } from "react-feather";
+import { ChevronDown, Filter, Search } from "react-feather";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppContext } from "@/context/context";
 import { ActionType } from "@/@types/appglobal";
+import Searchbar from "@/components/Searchbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchPhotos();
-  }, [])
+  }, []);
 
   useBottomScrollListener(() => {
     fetchPhotos();
@@ -104,20 +105,7 @@ export default function Home() {
     <Layout>
       <div className="px-[20px] lg:px-[30px]">
         <div className="w-full max-w-[1280px] mx-auto">
-          {/* ------- keywords -------- */}
-          <div className="w-full overflow-auto">
-            <div className="flex gap-2 py-2 mt-4 bg-white">
-              {topics.map(({ id, text }) => (
-                <Link
-                  href={""}
-                  className="h-[42px] flex items-center px-4 font-medium leading-none hover:bg-slate-50 border rounded"
-                  key={id}
-                >
-                  <span> {text} </span>
-                </Link>
-              ))}
-            </div>
-          </div>
+          <Hero />
 
           {/* ------- */}
           <Tabs />
@@ -165,9 +153,24 @@ const Tabs = () => {
         ))}
       </div>
       <button className={`h-[48px] flex items-center gap-2 px-4 border font-medium leading-none rounded-md`}>
-        <Filter size={20} stroke="gray" strokeWidth={1.5} />
-        <span className=""> Filters </span>
+        <span className=""> Trending </span>
+        <ChevronDown size={18} stroke="gray" strokeWidth={1.5} />
       </button>
     </div>
+  );
+};
+
+const Hero = () => {
+  return (
+    <section className="min-h-[300px] flex items-center justify-center mb-[50px]">
+      <div className="max-w-[680px] flex flex-col">
+        <h1 className="text-4xl font-bold mb-8">
+          The best free stock photos, royalty free images & videos shared by creators.
+        </h1>
+        <div>
+           <Searchbar />
+        </div>
+      </div>
+    </section>
   );
 };
