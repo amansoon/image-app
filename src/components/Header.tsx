@@ -50,6 +50,8 @@ function Header({}: Props) {
 const SearchBar = () => {
   const [text, setText] = useState<string>("");
   const router = useRouter();
+
+  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim()) {

@@ -2,58 +2,69 @@ import { Inter } from "next/font/google";
 import { createApi } from "unsplash-js";
 import Layout from "@/components/Layout";
 import Gallery from "@/components/Gallery";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
 import { Filter } from "react-feather";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useAppContext } from "@/context/context";
+import { ActionType } from "@/@types/appglobal";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const { state, dispatch } = useAppContext();
+  const {photos, isFetchingPhotos, lastQuery, photosPage} = state;
   const router = useRouter();
+
   const { slug } = router.query;
-  const searchQuery = slug ? (slug as string).replaceAll(/-{1,}/g, " ") : "";
+  const query = slug ? (slug as string).replaceAll(/-{1,}/g, " ") : "";
 
   const unsplash = createApi({
     accessKey: process.env.NEXT_PUBLIC_API_KEY as string,
   });
 
-  const [photos, setPhotos] = useState<object[]>([]);
-  const [page, setPage] = useState(1);
   const perPage = 15;
 
   useEffect(() => {
-    setPhotos([]);
-    if (slug) {
+    if (query !== lastQuery) {
+      dispatch({type: ActionType.SET_QUERY, payload: {lastQuery: query, photosPage: 0}})
       fetchPhotos();
     }
-  }, [slug]);
-
-  const fetchPhotos = () => {
-    unsplash.search
-      .getPhotos({
-        query: searchQuery,
-        page,
-        perPage,
-      })
-      .then((result) => {
-        console.log("new fetch", result);
-        if (result.status === 200 && result.type === "success") {
-          setPhotos([...photos, ...result.response.results]);
-          setPage(page + 1);
-        } else {
-          console.log(result.errors);
-        }
-      })
-      .catch((info) => {
-        console.log(info);
-      });
-  };
+  }, [query]);
 
   useBottomScrollListener(() => {
     fetchPhotos();
   });
+
+  const fetchPhotos = () => {
+    console.log("isFetching = ", isFetchingPhotos)
+    if (!isFetchingPhotos) {
+      dispatch({ type: ActionType.SET_FETCHING_PHOTOS, payload: true });
+      unsplash.search
+        .getPhotos({
+          query: query,
+          page: photosPage + 1,
+          perPage,
+        })
+        .then((result) => {
+          if (result.status === 200 && result.type === "success") {
+            console.log(result.response.results)
+            const payload = photosPage === 0 ? result.response.results : [...photos, ...result.response.results];
+            dispatch({ type: ActionType.SET_PHOTOS, payload: payload });
+          } else {
+            console.log(result.errors);
+          }
+        })
+        .catch((info) => {
+          console.log(info);
+        });
+    }
+  };
+
+  useEffect(() => {
+    console.log("Photos : ", state.photos);
+  }, [photos]);
 
   const topics = [
     {
@@ -119,7 +130,7 @@ export default function Home() {
 
           {/* ---------- */}
           <div className="mt-12 mb-12">
-            <h1 className="text-5xl font-semibold"> {searchQuery} </h1>
+            <h1 className="text-5xl font-semibold"> {query} </h1>
           </div>
 
           {/* ------- */}
