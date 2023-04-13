@@ -6,7 +6,8 @@ import Link from "next/link";
 import { Bookmark, Heart, Download } from "react-feather";
 
 type Props = {
-  photos: object[];
+  list: object[];
+  category: string;
 };
 
 const breakpointColumnsObj = {
@@ -15,7 +16,7 @@ const breakpointColumnsObj = {
   480: 1,
 };
 
-function Gallery({ photos }: Props) {
+function Gallery({ list, category }: Props) {
   return (
     <div className="w-full">
       <Masonry
@@ -23,9 +24,17 @@ function Gallery({ photos }: Props) {
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
-        {photos.map((photo, index) => (
-          <Photo photo={photo} key={index} />
-        ))}
+        {list.map((item, index) => {
+          if (category === "photos") {
+            return <Photo photo={item} key={index} />;
+          } 
+          else if (category === "collections") {
+            return <Collection key={index} />;
+          } 
+          else {
+            return <User key={index} />;
+          }
+        })}
       </Masonry>
     </div>
   );
@@ -45,7 +54,7 @@ function Photo({ photo }: PhotoProps) {
         width={photo.width}
         height={photo.height}
         className={`w-full h-auto rounded`}
-        style={{backgroundColor: photo.color}}
+        style={{ backgroundColor: photo.color }}
         priority={true}
       />
       <Link href={""}>
@@ -63,11 +72,18 @@ function Photo({ photo }: PhotoProps) {
             {/* ------- */}
             <div className="flex justify-between items-center gap-3">
               <div className="flex items-center gap-2">
-                 <div className="w-[42px] h-[42px] rounded-full bg-white"> </div>
-                 <div className="flex flex-col justify-between">
-                    <span className="text-white font-semibold"> Braydon Coyar </span>
-                    <span className="text-white text-xs"> In collaboration with <Link href={''} className="text-slate-100"> Braydon Coyer </Link>  </span>
-                 </div>
+                <div className="w-[42px] h-[42px] rounded-full bg-white"> </div>
+                <div className="flex flex-col justify-between">
+                  <span className="text-white font-semibold"> Braydon Coyar </span>
+                  <span className="text-white text-xs">
+                    {" "}
+                    In collaboration with{" "}
+                    <Link href={""} className="text-slate-100">
+                      {" "}
+                      Braydon Coyer{" "}
+                    </Link>{" "}
+                  </span>
+                </div>
               </div>
               <button className="p-[10px] rounded-md bg-white">
                 <Download size={20} strokeWidth={1.8} />
@@ -78,6 +94,18 @@ function Photo({ photo }: PhotoProps) {
       </Link>
     </div>
   );
+}
+
+function Collection({}) {
+  return <div>
+    <h1> Collection </h1>
+  </div>;
+}
+
+function User({}) {
+  return <div>
+    <h1> User </h1>
+  </div>;
 }
 
 export default Gallery;

@@ -13,8 +13,8 @@ type Props = {};
 
 function Header({}: Props) {
   return (
-    <header className="sticky top-0 z-50 w-full px-[20px] min-[620px]:px-[30px] py-4 border bg-white">
-      <div className="flex items-center">
+    <header className="h-[80px] sticky top-0 z-50  flex items-center px-[20px] min-[620px]:px-[30px] border bg-white">
+      <div className="w-full flex items-center">
         {/* logo */}
         <div className="mr-[15px] min-[620px]:mr-[30px]">
           <Link href={"/"}>
