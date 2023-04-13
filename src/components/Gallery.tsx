@@ -53,10 +53,10 @@ function Photo({ photo }: PhotoProps) {
           <div className="flex h-full flex-col justify-between">
             {/* ------ */}
             <div className="flex self-end gap-3">
-              <button className="p-3 rounded-md bg-white">
+              <button className="p-[10px] rounded-md bg-white">
                 <Bookmark size={20} strokeWidth={1.8} />
               </button>
-              <button className="p-3 rounded-md bg-white">
+              <button className="p-[10px] rounded-md bg-white">
                 <Heart size={20} strokeWidth={1.8} />
               </button>
             </div>
@@ -69,7 +69,7 @@ function Photo({ photo }: PhotoProps) {
                     <span className="text-white text-xs"> In collaboration with <Link href={''} className="text-slate-100"> Braydon Coyer </Link>  </span>
                  </div>
               </div>
-              <button className="p-3 rounded-md bg-white">
+              <button className="p-[10px] rounded-md bg-white">
                 <Download size={20} strokeWidth={1.8} />
               </button>
             </div>

@@ -1,29 +1,25 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Search } from "react-feather";
 import { useAppContext } from "@/context/context";
 import { useRouter } from "next/router";
 import { ActionType } from "@/@types/appglobal";
 
 type Props = {};
-
-function Searchbar({}: Props) {
-  const { state, dispatch } = useAppContext();
+function Searchbar() {
   const [text, setText] = useState<string>("");
   const router = useRouter();
 
+  useEffect(() => {
+    if (router.query.slug) {
+      setText(router.query.slug as string);
+    }
+  }, [router]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (text.trim()) {
-      const query = text.replaceAll(/\s{1,}/g, "-");
-      dispatch({ type: ActionType.RESET_QUERY, payload: { photosPage: 0, photos: [], lastQuery: query } });
-      router.push({
-        pathname: "/search/photos/[slug]",
-        query: { slug: query },
-      });
-    } else {
-      router.push("/");
-    }
+      router.push({ pathname: "/search/photos/[slug]", query: { slug: text } });
+    } 
   };
 
   return (
@@ -35,7 +31,7 @@ function Searchbar({}: Props) {
         <input
           type="text"
           placeholder="Search for free photos"
-          className="w-full px-6 py-4 leading-none outline-none bg-transparent"
+          className="w-full px-6 py-3 leading-none outline-none bg-transparent"
           value={text}
           onChange={(e: React.ChangeEvent) => setText((e.target as HTMLInputElement).value)}
         />
@@ -45,6 +41,6 @@ function Searchbar({}: Props) {
       </div>
     </form>
   );
-}
+};
 
-export default Searchbar;
+export default Searchbar
