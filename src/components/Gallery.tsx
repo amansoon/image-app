@@ -61,10 +61,10 @@ function Photo({ photo }: PhotoProps) {
           <div className="flex h-full flex-col justify-between">
             {/* ------ */}
             <div className="flex self-end gap-3">
-              <button className="p-[10px] rounded-md bg-white">
+              <button className="p-[10px] rounded-md bg-white/90 hover:bg-white">
                 <Bookmark size={20} strokeWidth={1.8} />
               </button>
-              <button className="p-[10px] rounded-md bg-white">
+              <button className="p-[10px] rounded-md bg-white/90 hover:bg-white">
                 <Heart size={20} strokeWidth={1.8} />
               </button>
             </div>
@@ -84,7 +84,7 @@ function Photo({ photo }: PhotoProps) {
                   </span>
                 </div>
               </div>
-              <button className="p-[10px] rounded-md bg-white">
+              <button className="p-[10px] rounded-md bg-white/90 hover:bg-white">
                 <Download size={20} strokeWidth={1.8} />
               </button>
             </div>
@@ -180,9 +180,9 @@ function User({}) {
           />
         </div>
 
-        <div className="h-[50%] w-full flex flex-col justify-end p-4 gap-6 items-center bg-green-800">
-          <h2 className="w-[60%] text-center truncate font-semibold text-2xl text-white"> Aman Ghanghoriya Is good human </h2>
-          <button className="mb-4 font-semibold text-green-800 hover:text-black bg-white px-5 py-3 rounded leading-0">
+        <div className="h-[50%] w-full flex flex-col justify-end p-6 gap-5 items-center bg-rose-500">
+          <h2 className="text-center font-semibold text-2xl text-white"> Aman Ghanghoriya </h2>
+          <button className="font-semibold text-rose-500 hover:text-black bg-white px-5 py-3 rounded leading-0">
             Follow
           </button>
         </div>

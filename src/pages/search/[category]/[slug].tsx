@@ -262,21 +262,21 @@ const SimilarKeywords = () => {
   ];
 
   return (
-    <div className="w-full overflow-auto">
-      <div className="relative w-full flex bg-gray-100">
-        <div className="absolute h-full grow bg-gradient-to-r from-gray-100 to-transparent"></div>
-        <div className="w-full max-w-[1280px] flex gap-2 py-[10px]">
+    <div className="w-full">
+      <div className="relative h-[80px] w-[1280px] flex items-center mx-auto">
+        <div className="absolute left-0 w-[20px] h-full z-10 grow bg-gradient-to-r from-white to-transparent"></div>
+        <div className="absolute top-0 left-0 h-full w-full overflow-auto flex items-center flex-nowrap gap-2">
           {topics.map(({ id, text }) => (
             <Link
               href={""}
-              className="h-[42px] flex items-center px-4 font-medium leading-none bg-white hover:bg-slate-50 border rounded"
+              className="h-[42px] flex items-center px-4 bg-slate-50/50 hover:bg-slate-50 border rounded"
               key={id}
             >
-              <span className=""> {text} </span>
+              <span className="whitespace-nowrap font-normal leading-none"> {text} </span>
             </Link>
           ))}
         </div>
-        <div className="absolute h-full grow bg-gradient-to-l from-gray-100 to-transparent"></div>
+        <div className="absolute right-0 w-[20px] h-full z-10 grow bg-gradient-to-l from-white to-transparent"></div>
       </div>
     </div>
   );
