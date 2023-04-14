@@ -111,7 +111,7 @@ export default function Home() {
           <Tabs />
 
           {/* ------- gallery --------- */}
-          <Gallery photos={feed} />
+          <Gallery list={feed} />
         </div>
       </div>
     </Layout>

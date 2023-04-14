@@ -306,7 +306,7 @@ const Tabs = ({ query }: { query: string }) => {
   const [current, setCurrent] = useState(1);
 
   return (
-    <div className="sticky top-[79px] z-10 flex justify-between items-center py-3 mb-6 overflow-auto bg-white">
+    <div className="sticky top-[79px] z-10 flex justify-between items-center pt-2 pb-3 mb-6 overflow-auto bg-white">
       <div className="flex items-center gap-3">
         {tabs.map(({ id, text, url }) => (
           <Link
@@ -318,7 +318,7 @@ const Tabs = ({ query }: { query: string }) => {
             onClick={() => setCurrent(id)}
           >
             <span className={`${current === id ? "text-white" : "text-gray-800"}`}> {text} </span>
-            <span className="text-sm text-gray-400"> 203K </span>
+            <span className="text-sm text-gray-400 leading-none mt-1"> 203K </span>
           </Link>
         ))}
       </div>
