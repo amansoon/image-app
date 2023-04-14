@@ -159,8 +159,6 @@ function Photos() {
             {/* ------- */}
             <Tabs query={query} />
 
-            <h1> Total Photos: {totalPhotos} </h1>
-
             {/* ------- gallery --------- */}
             <Gallery list={photos} category={category} />
 
@@ -264,7 +262,7 @@ const SimilarKeywords = () => {
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-auto">
       <div className="relative w-full flex bg-gray-100">
         <div className="absolute h-full grow bg-gradient-to-r from-gray-100 to-transparent"></div>
         <div className="w-full max-w-[1280px] flex gap-2 py-[10px]">

@@ -137,7 +137,11 @@ function Collection({}) {
         <div className="flex flex-col grow">
           <h3 className="font-semibold text-xl text-slate-700 leading-none"> My First collections </h3>
           <div className="text-sm mt-2 text-slate-500">
-            Curated by <Link href={""} className="hover:underline"> Aman Ghanghoriya </Link>
+            Curated by{" "}
+            <Link href={""} className="hover:underline">
+              {" "}
+              Aman Ghanghoriya{" "}
+            </Link>
           </div>
         </div>
         <div className="flex items-center">
@@ -153,8 +157,38 @@ function Collection({}) {
 
 function User({}) {
   return (
-    <div className="min-h-[300px] rounded-md">
-      <div className="p-4"></div>
+    <div className="">
+      <div className="relative h-[400px] flex flex-col justify-center items-center bg-rose-50 rounded-xl overflow-hidden">
+        <div className="relative h-[50%] grow w-full bg-rose-500">
+          <Image
+            src={
+              "https://images.unsplash.com/photo-1474511320723-9a56873867b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YW5pbWFsfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            }
+            alt="image"
+            className="object-cover"
+            fill
+          />
+        </div>
+
+        <div className="absolute rounded-full p-1 bg-white">
+          <Image
+            src="https://images.unsplash.com/profile-fb-1562634662-fe94daebc5c0.jpg?dpr=1&auto=format&fit=crop&w=150&h=150&q=60&crop=faces&bg=fff"
+            alt=""
+            height={80}
+            width={80}
+            className="rounded-full"
+          />
+        </div>
+
+        <div className="h-[50%] w-full flex flex-col justify-end p-4 gap-6 items-center bg-green-800">
+          <h2 className="w-[60%] text-center truncate font-semibold text-2xl text-white"> Aman Ghanghoriya Is good human </h2>
+          <button className="mb-4 font-semibold text-green-800 hover:text-black bg-white px-5 py-3 rounded leading-0">
+            Follow
+          </button>
+        </div>
+
+
+      </div>
     </div>
   );
 }
