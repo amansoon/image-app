@@ -1,8 +1,8 @@
 import Layout from "@/components/Layout";
 import Gallery from "@/components/Gallery";
-import { use, useEffect, useMemo, useState } from "react";
+import { ReactNode, use, useEffect, useMemo, useRef, useState } from "react";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
-import { Filter } from "react-feather";
+import { ChevronLeft, ChevronRight, Filter } from "react-feather";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { unsplash } from "@/config";
@@ -260,12 +260,62 @@ const SimilarKeywords = () => {
       text: "beauty",
     },
   ];
+  const [isLeftBtn, setLeftBtn] = useState(false);
+  const [isRightBtn, setRightBtn] = useState(false);
+
+  const scroller = useRef<HTMLDivElement>(null);
+
+  const handleLeftScroll = () => {
+    if (scroller.current) {
+      scroller.current.scrollBy(-100, 0);
+    }
+  };
+
+  const handleRightScroll = () => {
+    if (scroller.current) {
+      scroller.current.scrollBy(100, 0);
+    }
+  };
+
+  useEffect(() => {
+    handleScroll();
+  }, []);
+
+  const handleScroll = () => {
+    const element = scroller.current;
+    if (element) {
+      if (element.scrollLeft === 0) {
+        setLeftBtn(false);
+      } else {
+        setLeftBtn(true);
+      }
+
+      if (element.scrollWidth - element.scrollLeft - 5 < element.clientWidth) {
+        setRightBtn(false);
+      } else {
+        setRightBtn(true);
+      }
+    }
+  };
 
   return (
     <div className="w-full">
-      <div className="relative h-[80px] w-[1280px] flex items-center mx-auto">
-        <div className="absolute left-0 w-[20px] h-full z-10 grow bg-gradient-to-r from-white to-transparent"></div>
-        <div className="absolute top-0 left-0 h-full w-full overflow-auto flex items-center flex-nowrap gap-2">
+      <div className="relative h-[80px] w-full max-w-[1280px] overflow-hidden flex items-center mx-auto">
+        <button
+          className={`absolute left-0 w-[80px] h-[80px] rounded-e-full translate-x-[-40px] z-10 ${
+            isLeftBtn ? "flex" : "hidden"
+          } justify-end items-center overflow-hidden bg-white`}
+          onClick={handleLeftScroll}
+        >
+          <span className="w-[40px] flex justify-center">
+            <ChevronRight size={20} />
+          </span>
+        </button>
+        <div
+          className={`absolute top-0 left-0 h-full w-full overflow-auto scroll-smooth flex items-center flex-nowrap gap-2 ${"similar-keyword-scrollbar"}`}
+          ref={scroller}
+          onScroll={handleScroll}
+        >
           {topics.map(({ id, text }) => (
             <Link
               href={""}
@@ -276,7 +326,16 @@ const SimilarKeywords = () => {
             </Link>
           ))}
         </div>
-        <div className="absolute right-0 w-[20px] h-full z-10 grow bg-gradient-to-l from-white to-transparent"></div>
+        <button
+          className={`absolute right-0 w-[80px] h-[80px] rounded-s-full translate-x-[40px] z-10 ${
+            isRightBtn ? "flex" : "hidden"
+          } items-center overflow-hidden bg-white`}
+          onClick={handleRightScroll}
+        >
+          <span className="w-[40px] flex justify-center">
+            <ChevronRight size={20} />
+          </span>
+        </button>
       </div>
     </div>
   );
