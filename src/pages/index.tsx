@@ -107,9 +107,6 @@ export default function Home() {
         <div className="w-full max-w-[1280px] mx-auto">
           <Hero />
 
-          {/* ------- */}
-          <Tabs />
-
           {/* ------- gallery --------- */}
           <Gallery list={feed} />
         </div>

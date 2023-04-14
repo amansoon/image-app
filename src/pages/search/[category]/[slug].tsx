@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, Filter } from "react-feather";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { unsplash } from "@/config";
+import Tabs from "@/components/Tabs";
 
 function Photos() {
   const [isPhotosLoading, setPhotosLoading] = useState(false);
@@ -144,38 +145,50 @@ function Photos() {
     }
   };
 
+  const tabs = [
+    {
+      id: 1,
+      text: "photos",
+      url: `/search/photos/${query}`,
+    },
+    {
+      id: 2,
+      text: "collections",
+      url: `/search/collections/${query}`,
+    },
+    {
+      id: 3,
+      text: "users",
+      url: `/search/users/${query}`,
+    },
+  ];
+
   return (
     <Layout>
-      <>
-        <SimilarKeywords />
+      <SimilarKeywords />
 
-        <div className="px-[20px] lg:px-[30px]">
-          <div className="w-full max-w-[1280px] mx-auto">
-            {/* ---------- */}
-            <div className="mt-12 mb-12">
-              <h1 className="text-5xl font-semibold capitalize"> {query} </h1>
-            </div>
+      {/* ---------- */}
+      <div className="mt-12 mb-12">
+        <h1 className="text-5xl font-semibold capitalize"> {query} </h1>
+      </div>
 
-            {/* ------- */}
-            <Tabs query={query} />
+      {/* ------- */}
+      <Tabs query={query} tabs={tabs} />
 
-            {/* ------- gallery --------- */}
-            <Gallery list={photos} category={category} />
+      {/* ------- gallery --------- */}
+      <Gallery list={photos} category={category} />
 
-            {(isUsersLoading || isCollectionsLoading || isPhotosLoading) && (
-              <div className="py-8 mb-8">
-                <h1 className="text-4xl"> Loading.... </h1>
-              </div>
-            )}
-
-            {totalPages === page && (
-              <div className="py-8 mb-8">
-                <h1 className="text-4xl"> All Image fetched </h1>
-              </div>
-            )}
-          </div>
+      {(isUsersLoading || isCollectionsLoading || isPhotosLoading) && (
+        <div className="py-8 mb-8">
+          <h1 className="text-4xl"> Loading.... </h1>
         </div>
-      </>
+      )}
+
+      {totalPages === page && (
+        <div className="py-8 mb-8">
+          <h1 className="text-4xl"> All Image fetched </h1>
+        </div>
+      )}
     </Layout>
   );
 }
@@ -260,6 +273,7 @@ const SimilarKeywords = () => {
       text: "beauty",
     },
   ];
+
   const [isLeftBtn, setLeftBtn] = useState(false);
   const [isRightBtn, setRightBtn] = useState(false);
 
@@ -300,15 +314,15 @@ const SimilarKeywords = () => {
 
   return (
     <div className="w-full">
-      <div className="relative h-[80px] w-full max-w-[1280px] overflow-hidden flex items-center mx-auto">
+      <div className="relative h-[80px] w-full overflow-hidden flex items-center">
         <button
-          className={`absolute left-0 w-[80px] h-[80px] rounded-e-full translate-x-[-40px] z-10 ${
+          className={`absolute left-0 w-[80px] h-[80px] rounded-full translate-x-[-40px] z-10 ${
             isLeftBtn ? "flex" : "hidden"
-          } justify-end items-center overflow-hidden bg-white`}
+          } justify-end items-center overflow-hidden bg-white text-slate-500 hover:text-slate-800`}
           onClick={handleLeftScroll}
         >
           <span className="w-[40px] flex justify-center">
-            <ChevronRight size={20} />
+            <ChevronRight size={20} strokeWidth={1.8} />
           </span>
         </button>
         <div
@@ -318,7 +332,7 @@ const SimilarKeywords = () => {
         >
           {topics.map(({ id, text }) => (
             <Link
-              href={""}
+              href={`/search/photos/${text}`}
               className="h-[42px] flex items-center px-4 bg-slate-50/50 hover:bg-slate-50 border rounded"
               key={id}
             >
@@ -329,60 +343,14 @@ const SimilarKeywords = () => {
         <button
           className={`absolute right-0 w-[80px] h-[80px] rounded-s-full translate-x-[40px] z-10 ${
             isRightBtn ? "flex" : "hidden"
-          } items-center overflow-hidden bg-white`}
+          } items-center overflow-hidden bg-white text-slate-500 hover:text-slate-800`}
           onClick={handleRightScroll}
         >
           <span className="w-[40px] flex justify-center">
-            <ChevronRight size={20} />
+            <ChevronRight size={20} strokeWidth={1.8} />
           </span>
         </button>
       </div>
-    </div>
-  );
-};
-
-const Tabs = ({ query }: { query: string }) => {
-  const tabs = [
-    {
-      id: 1,
-      text: "photos",
-      url: `/search/photos/${query}`,
-    },
-    {
-      id: 2,
-      text: "collections",
-      url: `/search/collections/${query}`,
-    },
-    {
-      id: 3,
-      text: "users",
-      url: `/search/users/${query}`,
-    },
-  ];
-
-  const [current, setCurrent] = useState(1);
-
-  return (
-    <div className="sticky top-[79px] z-10 flex justify-between items-center pt-2 pb-3 mb-6 overflow-auto bg-white">
-      <div className="flex items-center gap-3">
-        {tabs.map(({ id, text, url }) => (
-          <Link
-            href={url}
-            key={id}
-            className={`h-[48px] flex items-center gap-2  font-medium leading-none rounded-full ${
-              current === id ? "bg-black px-5" : "bg-transparent px-2"
-            }`}
-            onClick={() => setCurrent(id)}
-          >
-            <span className={`${current === id ? "text-white" : "text-gray-800"}`}> {text} </span>
-            <span className="text-sm text-gray-400 leading-none mt-1"> 203K </span>
-          </Link>
-        ))}
-      </div>
-      <button className={`h-[48px] flex items-center gap-2 px-4 border font-medium leading-none rounded-md`}>
-        <Filter size={20} stroke="gray" strokeWidth={1.5} />
-        <span className=""> Filters </span>
-      </button>
     </div>
   );
 };
