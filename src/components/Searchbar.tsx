@@ -6,7 +6,7 @@ import { ActionType } from "@/@types/appglobal";
 
 type Props = {};
 function Searchbar() {
-  const [text, setText] = useState<string>();
+  const [text, setText] = useState<string>('');
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {

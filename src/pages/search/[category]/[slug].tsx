@@ -189,6 +189,7 @@ function Photos() {
             <h1 className="text-4xl"> All Image fetched </h1>
           </div>
         )}
+        
       </div>
   );
 }
