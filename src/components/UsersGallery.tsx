@@ -46,7 +46,7 @@ function User({ user }: UserProps) {
           <Image
             src={photos[0]?.urls.small}
             alt="image"
-            className="object-cover"
+            className="object-cover bg-blue-500"
             fill
           />
         </div>

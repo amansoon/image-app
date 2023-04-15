@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useAppContext } from "@/context/context";
 import { ActionType } from "@/@types/appglobal";
 import Searchbar from "@/components/Searchbar";
+import PhotosGallery from "@/components/PhotosGallery";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -105,9 +106,7 @@ export default function Home() {
     <div className="px-[20px] lg:px-[30px]">
       <div className="w-full max-w-[1280px] mx-auto">
         <Hero />
-
-        {/* ------- gallery --------- */}
-        <Gallery category="" list={feed} />
+        <PhotosGallery photos={feed} />
       </div>
     </div>
   );
