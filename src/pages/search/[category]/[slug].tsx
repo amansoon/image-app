@@ -7,6 +7,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { unsplash } from "@/config";
 import Tabs from "@/components/Tabs";
+import PhotosGallery from "@/components/PhotosGallery";
+import CollectionGallery from "@/components/CollectionsGallery";
+import UsersGallery from "@/components/UsersGallery";
 
 function Photos() {
   const [isPhotosLoading, setPhotosLoading] = useState(false);
@@ -60,10 +63,14 @@ function Photos() {
   }, [query]);
 
   useBottomScrollListener(() => {
-    if (query) {
-      if (totalPhotoPages > currentPhotoPage) {
-        fetchPhotos();
-      }
+    if(category === 'photos' && totalPhotoPages > currentPhotoPage) {
+      fetchPhotos();
+    }
+    if(category === 'collections' && totalCollectionPages > currentCollectionPage) {
+      fetchCollections();
+    }
+    if(category === 'users' && totalUserPages > currentUserPage) {
+      fetchUsers();
     }
   });
 
@@ -88,15 +95,20 @@ function Photos() {
         }
         setPhotosLoading(false);
       } else {
+        setPhotosLoading(false);
         console.log(result.errors);
       }
     }
   };
 
+  useEffect(() => {
+    console.log("collection changes = ", collections);
+  }, [collections]);
+
   const fetchCollections = async (newQuery?: string) => {
     if (!isCollectionsLoading) {
       setCollectionsLoading(true);
-      const result = await unsplash.search.getPhotos({
+      const result = await unsplash.search.getCollections({
         query: newQuery || query,
         page: currentCollectionPage + 1,
         perPage,
@@ -114,6 +126,7 @@ function Photos() {
         }
         setCollectionsLoading(false);
       } else {
+        setCollectionsLoading(false);
         console.log(result.errors);
       }
     }
@@ -122,7 +135,7 @@ function Photos() {
   const fetchUsers = async (newQuery?: string) => {
     if (!isUsersLoading) {
       setUsersLoading(true);
-      const result = await unsplash.search.getPhotos({
+      const result = await unsplash.search.getUsers({
         query: newQuery || query,
         page: currentUserPage + 1,
         perPage,
@@ -164,33 +177,34 @@ function Photos() {
   ];
 
   return (
-      <div>
-        <SimilarKeywords />
+    <div>
+      <SimilarKeywords />
 
-        {/* ---------- */}
-        <div className="mt-12 mb-12">
-          <h1 className="text-5xl font-semibold capitalize"> {query} </h1>
-        </div>
-
-        {/* ------- */}
-        <Tabs query={query} tabs={tabs} />
-
-        {/* ------- gallery --------- */}
-        <Gallery list={photos} category={category} />
-
-        {(isUsersLoading || isCollectionsLoading || isPhotosLoading) && (
-          <div className="py-8 mb-8">
-            <h1 className="text-4xl"> Loading.... </h1>
-          </div>
-        )}
-
-        {totalPages === page && (
-          <div className="py-8 mb-8">
-            <h1 className="text-4xl"> All Image fetched </h1>
-          </div>
-        )}
-        
+      {/* ---------- */}
+      <div className="mt-12 mb-12">
+        <h1 className="text-5xl font-semibold capitalize"> {query} </h1>
       </div>
+
+      {/* ------- */}
+      <Tabs query={query} tabs={tabs} />
+
+      {/* ------- gallery --------- */}
+      {category === "photos" && <PhotosGallery photos={photos} />}
+      {category === "collections" && <CollectionGallery collections={collections} />}
+      {category === "users" && <UsersGallery users={users} />}
+
+      {(isUsersLoading || isCollectionsLoading || isPhotosLoading) && (
+        <div className="py-8 mb-8">
+          <h1 className="text-4xl"> Loading.... </h1>
+        </div>
+      )}
+
+      {totalPages === page && (
+        <div className="py-8 mb-8">
+          <h1 className="text-4xl"> All Image fetched </h1>
+        </div>
+      )}
+    </div>
   );
 }
 

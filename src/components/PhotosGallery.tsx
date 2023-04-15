@@ -13,7 +13,6 @@ const breakpointColumnsObj = {
 
 type Props = {
   photos: object[];
-  category: string;
 };
 
 export default function PhotosGallery({ photos }: Props) {
