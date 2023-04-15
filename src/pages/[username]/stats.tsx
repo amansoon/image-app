@@ -1,14 +1,20 @@
-import React from "react";
+import React, {ReactElement} from "react";
 import UserLayout from "@/components/UserLayout";
+import type { NextPageWithLayout } from "../_app";
 
 type Props = {};
 
-function Stats({}: Props) {
+const Stats: NextPageWithLayout = () => {
+  return <p> Stats </p>
+}
+
+Stats.getLayout = function getLayout(page: ReactElement) {
   return (
     <UserLayout>
-      <h1> Stats </h1>
+      {page}
     </UserLayout>
-  );
+  )
 }
+
 
 export default Stats;

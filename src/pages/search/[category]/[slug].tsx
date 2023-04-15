@@ -164,32 +164,32 @@ function Photos() {
   ];
 
   return (
-    <Layout>
-      <SimilarKeywords />
+      <div>
+        <SimilarKeywords />
 
-      {/* ---------- */}
-      <div className="mt-12 mb-12">
-        <h1 className="text-5xl font-semibold capitalize"> {query} </h1>
+        {/* ---------- */}
+        <div className="mt-12 mb-12">
+          <h1 className="text-5xl font-semibold capitalize"> {query} </h1>
+        </div>
+
+        {/* ------- */}
+        <Tabs query={query} tabs={tabs} />
+
+        {/* ------- gallery --------- */}
+        <Gallery list={photos} category={category} />
+
+        {(isUsersLoading || isCollectionsLoading || isPhotosLoading) && (
+          <div className="py-8 mb-8">
+            <h1 className="text-4xl"> Loading.... </h1>
+          </div>
+        )}
+
+        {totalPages === page && (
+          <div className="py-8 mb-8">
+            <h1 className="text-4xl"> All Image fetched </h1>
+          </div>
+        )}
       </div>
-
-      {/* ------- */}
-      <Tabs query={query} tabs={tabs} />
-
-      {/* ------- gallery --------- */}
-      <Gallery list={photos} category={category} />
-
-      {(isUsersLoading || isCollectionsLoading || isPhotosLoading) && (
-        <div className="py-8 mb-8">
-          <h1 className="text-4xl"> Loading.... </h1>
-        </div>
-      )}
-
-      {totalPages === page && (
-        <div className="py-8 mb-8">
-          <h1 className="text-4xl"> All Image fetched </h1>
-        </div>
-      )}
-    </Layout>
   );
 }
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Filter } from "react-feather";
+import { useRouter } from "next/router";
 
 type TabType = {
   id: number;
@@ -10,11 +11,11 @@ type TabType = {
 
 type props = {
   query: string;
-  tabs: TabType[]
+  tabs: TabType[];
 };
 
 export default function Tabs({ query, tabs }: props) {
-  const [current, setCurrent] = useState(1);
+  const router = useRouter();
 
   return (
     <div className="sticky top-[79px] z-10 flex justify-between items-center pt-2 pb-3 mb-6 overflow-auto bg-white">
@@ -24,11 +25,10 @@ export default function Tabs({ query, tabs }: props) {
             href={url}
             key={id}
             className={`h-[48px] flex items-center gap-2  font-medium leading-none rounded-full ${
-              current === id ? "bg-black px-5" : "bg-transparent px-2"
+              router.asPath === url ? "bg-black px-5" : "bg-transparent px-2"
             }`}
-            onClick={() => setCurrent(id)}
           >
-            <span className={`${current === id ? "text-white" : "text-gray-800"}`}> {text} </span>
+            <span className={`${router.asPath === url ? "text-white" : "text-gray-800"}`}> {text} </span>
             <span className="text-sm text-gray-400 leading-none mt-1"> 203K </span>
           </Link>
         ))}

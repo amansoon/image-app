@@ -102,16 +102,14 @@ export default function Home() {
   ];
 
   return (
-    <Layout>
-      <div className="px-[20px] lg:px-[30px]">
-        <div className="w-full max-w-[1280px] mx-auto">
-          <Hero />
+    <div className="px-[20px] lg:px-[30px]">
+      <div className="w-full max-w-[1280px] mx-auto">
+        <Hero />
 
-          {/* ------- gallery --------- */}
-          <Gallery list={feed} />
-        </div>
+        {/* ------- gallery --------- */}
+        <Gallery category="" list={feed} />
       </div>
-    </Layout>
+    </div>
   );
 }
 
@@ -165,7 +163,7 @@ const Hero = () => {
           The best free stock photos, royalty free images & videos shared by creators.
         </h1>
         <div>
-           <Searchbar />
+          <Searchbar />
         </div>
       </div>
     </section>

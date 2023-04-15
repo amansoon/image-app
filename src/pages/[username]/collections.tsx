@@ -1,14 +1,20 @@
-import React from "react";
+import React, {ReactElement} from "react";
 import UserLayout from "@/components/UserLayout";
+import type { NextPageWithLayout } from "../_app";
 
 type Props = {};
 
-function Collections({}: Props) {
-  return (
-    <UserLayout>
-      <h1> Collections </h1>
-    </UserLayout>
-  );
+const Collection: NextPageWithLayout = () => {
+  return <p> Collection </p>
 }
 
-export default Collections;
+Collection.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <UserLayout>
+      {page}
+    </UserLayout>
+  )
+}
+
+
+export default Collection;

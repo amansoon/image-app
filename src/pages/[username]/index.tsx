@@ -1,28 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import { useRouter } from 'next/router';
+import React, { ReactElement } from "react";
+import UserLayout from "@/components/UserLayout";
+import type { NextPageWithLayout } from "../_app";
 
-type Props = {}
+type Props = {};
 
-function User({}: Props) {
-  const router = useRouter();
-  const {username, slug} = router.query;
+const Index: NextPageWithLayout = () => {
+  return <p> PHotos </p>;
+};
 
-  useEffect(() => {
-    const {usename, slug} = router.query;
-    // if(slug?.length > 1) {
-      
-    // }
-  }, [router])
-  
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <UserLayout>{page}</UserLayout>;
+};
 
-  console.log(router.query)
-
-  return (
-    <div>
-      <h1> username :  {username} </h1>
-      <h1> slug : {slug} </h1>
-    </div>
-  )
-}
-
-export default User;
+export default Index;

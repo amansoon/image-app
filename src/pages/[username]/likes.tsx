@@ -1,14 +1,20 @@
-import UserLayout from '@/components/UserLayout';
-import React from 'react'
+import React, {ReactElement} from "react";
+import UserLayout from "@/components/UserLayout";
+import type { NextPageWithLayout } from "../_app";
 
-type Props = {}
+type Props = {};
 
-function Likes({}: Props) {
+const Likes: NextPageWithLayout = () => {
+  return <p className="text-3xl"> Likes </p>
+}
+
+Likes.getLayout = function getLayout(page: ReactElement) {
   return (
     <UserLayout>
-        <h1> Likes Photos </h1>
+      {page}
     </UserLayout>
   )
 }
+
 
 export default Likes;

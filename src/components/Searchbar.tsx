@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Search } from "react-feather";
 import { useAppContext } from "@/context/context";
 import { useRouter } from "next/router";
@@ -6,20 +6,15 @@ import { ActionType } from "@/@types/appglobal";
 
 type Props = {};
 function Searchbar() {
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState<string>();
   const router = useRouter();
-
-  useEffect(() => {
-    if (router.query.slug) {
-      setText(router.query.slug as string);
-    }
-  }, [router]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (text.trim()) {
-      router.push({ pathname: "/search/photos/[slug]", query: { slug: text } });
-    } 
+    const destination = `/search/photos/${text.trim()}`;
+    if (router.asPath !== destination) {
+      router.push(destination);
+    }
   };
 
   return (
@@ -41,6 +36,6 @@ function Searchbar() {
       </div>
     </form>
   );
-};
+}
 
-export default Searchbar
+export default Searchbar;
