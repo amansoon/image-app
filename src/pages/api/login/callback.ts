@@ -5,17 +5,17 @@ type Data = {
   data: object;
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (!req.query.code) {
     return res.status(200).json({ data: { status: "code not get" } });
   }
 
-  const client_id = process.env.API_KEY as string;
-  const client_secret = process.env.API_SECRET as string;
+  const client_id = process.env.NEXT_PUBLIC_API_KEY as string;
+  const client_secret = process.env.NEXT_PUBLIC_API_SECRET as string;
   const redirect_uri = "http://localhost:3000/api/login/callback";
   const code = req.query.code as string;
   const grant_type = "authorization_code";
-  
+
   const queryParams = new URLSearchParams({
     client_id,
     client_secret,
@@ -24,14 +24,19 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     grant_type,
   });
 
-  const oautURL = `https://unsplash.com/oauth/token?${queryParams.toString()}`;
+  const oauthURL = `https://unsplash.com/oauth/token?${queryParams.toString()}`;
 
-  fetch(oautURL, {
-    method: "POST",
-  }).then((response) => {
-    console.log(response)
-    return res.status(200).json({ data: response });
-  });
+  console.log(oauthURL);
 
-  res.status(200).json({ data: {"status": "something went wrong"} });
+  try {
+    const response = await fetch(oauthURL, {
+      method: "POST",
+    });
+    const result = await response.json();
+    res.status(200).json({ data: result });
+  } catch (error) {
+    console.log(error);
+    res.status(200).json({ data: { status: "unable to authorizize" } });
+  }
+  
 }
