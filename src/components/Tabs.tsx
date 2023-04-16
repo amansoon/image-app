@@ -7,6 +7,7 @@ type TabType = {
   id: number;
   text: string;
   url: string;
+  count: number | null;
 };
 
 type props = {
@@ -20,7 +21,7 @@ export default function Tabs({ query, tabs }: props) {
   return (
     <div className="sticky top-[79px] z-10 flex justify-between items-center pt-2 pb-3 mb-6 overflow-auto bg-white">
       <div className="flex items-center gap-3">
-        {tabs.map(({ id, text, url }) => (
+        {tabs.map(({ id, text, url, count }) => (
           <Link
             href={url}
             key={id}
@@ -29,7 +30,7 @@ export default function Tabs({ query, tabs }: props) {
             }`}
           >
             <span className={`${router.asPath === url ? "text-white" : "text-gray-800"}`}> {text} </span>
-            <span className="text-sm text-gray-400 leading-none mt-1"> 203K </span>
+            {count !== null && <span className="text-sm text-gray-400 leading-none mt-1"> {count > 1000 ?  (count/1000).toFixed(1) + 'K' : count} </span>}
           </Link>
         ))}
       </div>

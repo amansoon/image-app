@@ -10,7 +10,12 @@ function Searchbar() {
   const router = useRouter();
 
   useEffect(() => {
-    setText(router.query.slug as string);
+    if(router.query.slug) {
+      setText(router.query.slug as string);
+    }
+    else {
+      setText('');
+    }
   }, [router]);
 
   const handleSearch = (e: React.FormEvent) => {

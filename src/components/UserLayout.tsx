@@ -5,7 +5,10 @@ import PageNotFound from "./PageNotFound";
 import Tabs from "./Tabs";
 import Image from "next/image";
 import { unsplash } from "@/config";
+import Link from "next/link";
 import { Award, Globe, Instagram, MapPin, Twitter } from "react-feather";
+import TabList from "./TabList";
+import Tab from "./Tab";
 
 type Props = {
   children: React.ReactNode;
@@ -17,29 +20,39 @@ const tabs = [
   {
     id: 1,
     text: "photos",
-    url: "/@aman",
+    url: "",
+    count: 0,
   },
   {
     id: 2,
     text: "likes",
-    url: "/@aman/likes",
+    url: "/likes",
+    count: 0,
   },
   {
     id: 3,
     text: "collections",
-    url: "/@aman/collections",
+    url: "/collections",
+    count: 0,
   },
   {
     id: 4,
     text: "statistics",
-    url: "/@aman/stats",
+    url: "/stats",
+    count: null,
   },
 ];
 
 function UserLayout({ children }: Props) {
   const [user, setUser] = useState<object | null>(null);
   const router = useRouter();
-  const username = router.query.username as string;
+  const username = useMemo(() => {
+    const uname = router.query.username as string;
+    if (uname?.startsWith("@")) {
+      return uname.substring(1);
+    }
+    return uname;
+  }, [router.query.username]);
 
   useEffect(() => {
     if (username) {
@@ -69,11 +82,10 @@ function UserLayout({ children }: Props) {
     return <PageNotFound />;
   } else {
     return (
-      <div>
+      <>
         <UserDetail user={user} />
-        <Tabs query="" tabs={tabs} />
         {children}
-      </div>
+      </>
     );
   }
 }
@@ -96,6 +108,35 @@ const UserDetail = ({ user }: { user: object }) => {
     total_likes,
     total_collections,
   } = user;
+
+  console.log(user);
+
+  const tabs = [
+    {
+      id: 1,
+      text: "photos",
+      url: `/@${username}`,
+      count: total_photos,
+    },
+    {
+      id: 2,
+      text: "likes",
+      url: `/@${username}/likes`,
+      count: total_likes,
+    },
+    {
+      id: 3,
+      text: "collections",
+      url: `/@${username}/collections`,
+      count: total_likes,
+    },
+    {
+      id: 4,
+      text: "statistics",
+      url: `/@${username}/stats`,
+      count: null,
+    },
+  ];
 
   return (
     <div className="mt-12">
@@ -126,24 +167,42 @@ const UserDetail = ({ user }: { user: object }) => {
           {allow_messages && <button className="font-medium px-4 py-3 rounded text-black border"> Message </button>}
           {for_hire && <button className="font-medium px-4 py-3 rounded text-black border"> Hire </button>}
         </div>
-        <div className="max-w-[700px] w-full mt-6">
-          <p>{bio}</p>
-        </div>
-        <div className="flex items-center gap-2 mt-4 text-slate-500">
-          <MapPin size={16} strokeWidth={1.5} /> India
-        </div>
-        <div className="flex gap-6 mt-2 text-slate-500 py-3 leading-none">
-          <div className="flex items-center gap-2">
-            <Instagram size={16} strokeWidth={1.5} /> <span> Instagram </span> ・
+
+        {bio && (
+          <div className="max-w-[700px] w-full mt-6">
+            <p className="whitespace-pre-line text-slate-500 leading-normal">{bio}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <Twitter size={16} strokeWidth={1.5} /> <span> Twitter </span> ・
+        )}
+
+        {location && (
+          <div className="flex items-center gap-2 mt-4 text-slate-500">
+            <MapPin size={16} strokeWidth={1.5} /> {location}
           </div>
-          <div className="flex items-center gap-2">
-            <Globe size={16} strokeWidth={1.5} /> <span> Portfolio </span>
-          </div>
+        )}
+
+        <div className="flex items-center gap-7 mt-2 text-slate-500 py-3 leading-none">
+          {social.instagram_username && (
+            <a href={`https://instagram.com/${social.instagram_username}`} target="_blank" className="flex gap-2">
+              <Instagram size={16} strokeWidth={1.5} /> <span> Instagram </span>
+            </a>
+          )}
+
+          {social.twitter_username && (
+            <a href={`https://twitter.com/${social.twitter_username}`} target="_blank" className="flex gap-2">
+              <Twitter size={16} strokeWidth={1.5} /> <span> Twitter </span>
+            </a>
+          )}
+
+          {social.portfolio_url && (
+            <a href={`${social.portfolio_url}`} target="_blank" className="flex gap-2">
+              <Globe size={16} strokeWidth={1.5} /> <span> Portfolio </span>
+            </a>
+          )}
         </div>
+
+        <div className="flex items-center gap-7 mt-2 text-slate-500 py-3 leading-none"></div>
       </div>
+      <Tabs query="" tabs={tabs} />
     </div>
   );
 };

@@ -163,16 +163,19 @@ function Photos() {
       id: 1,
       text: "photos",
       url: `/search/photos/${query}`,
+      count: totalPhotos,
     },
     {
       id: 2,
       text: "collections",
       url: `/search/collections/${query}`,
+      count: totalCollections,
     },
     {
       id: 3,
       text: "users",
       url: `/search/users/${query}`,
+      count: totalUsers,
     },
   ];
 
