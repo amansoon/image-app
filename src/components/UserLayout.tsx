@@ -55,6 +55,7 @@ function UserLayout({ children }: Props) {
   }, [router.query.username]);
 
   useEffect(() => {
+    console.log("Username changed")
     if (username) {
       fetchUser();
     }
@@ -67,7 +68,6 @@ function UserLayout({ children }: Props) {
   const fetchUser = async () => {
     try {
       const result = await unsplash.users.get({ username });
-      console.log(result);
       if (result.type === "success") {
         setUser(result.response);
       } else {
@@ -108,8 +108,6 @@ const UserDetail = ({ user }: { user: object }) => {
     total_likes,
     total_collections,
   } = user;
-
-  console.log(user);
 
   const tabs = [
     {
