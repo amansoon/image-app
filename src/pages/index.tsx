@@ -103,56 +103,12 @@ export default function Home() {
   ];
 
   return (
-    <div className="px-[20px] lg:px-[30px]">
-      <div className="w-full max-w-[1280px] mx-auto">
-        <Hero />
-        <PhotosGallery photos={feed} />
-      </div>
+    <div>
+      <Hero />
+      <PhotosGallery photos={feed} />
     </div>
   );
 }
-
-const Tabs = () => {
-  const tabs = [
-    {
-      id: 1,
-      text: "Photos",
-    },
-    {
-      id: 2,
-      text: "Collections",
-    },
-    {
-      id: 3,
-      text: "Users",
-    },
-  ];
-
-  const [current, setCurrent] = useState(1);
-
-  return (
-    <div className="flex justify-between items-center mb-6 overflow-auto">
-      <div className="flex items-center gap-3">
-        {tabs.map(({ id, text }) => (
-          <button
-            key={id}
-            className={`h-[48px] flex items-center gap-2  font-medium leading-none rounded-full ${
-              current === id ? "bg-black px-5" : "bg-transparent px-2"
-            }`}
-            onClick={() => setCurrent(id)}
-          >
-            <span className={`${current === id ? "text-white" : "text-gray-800"}`}> {text} </span>
-            <span className="text-sm text-gray-400"> 203K </span>
-          </button>
-        ))}
-      </div>
-      <button className={`h-[48px] flex items-center gap-2 px-4 border font-medium leading-none rounded-md`}>
-        <span className=""> Trending </span>
-        <ChevronDown size={18} stroke="gray" strokeWidth={1.5} />
-      </button>
-    </div>
-  );
-};
 
 const Hero = () => {
   return (

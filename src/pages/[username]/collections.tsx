@@ -66,7 +66,7 @@ const Collections: NextPageWithLayout = () => {
 
   return (
     <div>
-      <CollectionGallery collections={collections} />;
+      <CollectionGallery collections={collections} />
       {isCollectionsLoading && (
         <div>
           <h1 className="text-4xl"> </h1>

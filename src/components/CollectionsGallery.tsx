@@ -23,7 +23,7 @@ export default function CollectionGallery({ collections }: Props) {
         columnClassName="my-masonry-grid_column"
       >
         {collections.map((collection, index) => {
-          return <Collection collection={collection} key={index} />;
+          return <Collection collection={collection} key={index} />
         })}
       </Masonry>
     </div>
@@ -41,7 +41,7 @@ function Collection({ collection }: CollectionProps) {
     <div className="group">
       {/* grid */}
       <Link href={`/collections/${id}`}>
-        <div className="w-full aspect-square grid grid-cols-2 grid-rows-2 gap-2 rounded-2xl overflow-hidden">
+        <div className="w-full aspect-square grid grid-cols-2 grid-rows-2 gap-2 rounded-2xl overflow-hidden transition-all hover:brightness-75">
           <div className="relative col-start-1 col-end-2 row-span-2 bg-red-500">
             <Image
               src={preview_photos[0]?.urls.regular}
@@ -72,8 +72,8 @@ function Collection({ collection }: CollectionProps) {
       {/* info */}
       <div className="flex items-start py-4">
         <div className="flex flex-col grow">
-          <h3 className="font-semibold text-xl text-slate-700 leading-none"> 
-            <Link href={`/@${user.username}`}> {title} </Link> 
+          <h3 className="truncate max-w-[300px] font-semibold text-xl text-slate-700"> 
+            <Link href={`/collections/${id}`}> {title} </Link> 
           </h3>
           <div className="text-sm mt-2 text-slate-500">
             Curated by{" "}
@@ -90,5 +90,5 @@ function Collection({ collection }: CollectionProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

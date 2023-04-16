@@ -53,21 +53,20 @@ const Stats: NextPageWithLayout = () => {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row items-center rounded-lg bg-gray-50 border mb-12 mt-4">
-        <div className="flex flex-col items-center p-6 grow">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12 mt-4">
+        <div className="h-[200px] flex flex-col justify-center items-center bg-gray-50 border rounded-lg">
           <h3 className="text-xl font-medium text-gray-500 mb-3"> Views </h3>
           <div className="text-4xl font-semibold"> {parseInt(stats.views?.total).toLocaleString()} </div>
         </div>
-        <div className="flex flex-col items-center px-4 py-12 grow">
+        <div className="h-[200px] flex flex-col justify-center items-center bg-gray-50 border rounded-lg">
           <h3 className="text-xl font-medium text-gray-500 mb-3"> Downloads </h3>
           <div className="text-4xl font-semibold"> {parseInt(stats.downloads?.total).toLocaleString()} </div>
         </div>
-      </div>
-      {isStatsLoading && (
-        <div>
-          <h1 className="text-4xl"> Loading... </h1>
+        <div className="h-[200px] flex flex-col justify-center items-center bg-gray-50 border rounded-lg">
+          <h3 className="text-xl font-medium text-gray-500 mb-3"> Followers </h3>
+          <div className="text-4xl font-semibold"> {parseInt(stats.downloads?.total).toLocaleString()} </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
