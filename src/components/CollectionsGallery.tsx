@@ -35,36 +35,49 @@ type CollectionProps = {
 };
 
 function Collection({ collection }: CollectionProps) {
-  const { title, total_photos, preview_photos, user } = collection;
+  const { id, title, total_photos, preview_photos, user } = collection;
 
   return (
-    <div className="">
+    <div className="group">
       {/* grid */}
-      <div className="w-full aspect-square grid grid-cols-2 grid-rows-2 gap-2 rounded-2xl overflow-hidden">
-        <div className="relative col-start-1 col-end-2 row-span-2 bg-red-500">
-          <Image
-            src={preview_photos[0]?.urls.regular}
-            fill={true}
-            alt="image"
-            className="object-cover object-center bg-white"
-            style={{ backgroundColor: "white" }}
-          />
+      <Link href={`/collections/${id}`}>
+        <div className="w-full aspect-square grid grid-cols-2 grid-rows-2 gap-2 rounded-2xl overflow-hidden">
+          <div className="relative col-start-1 col-end-2 row-span-2 bg-red-500">
+            <Image
+              src={preview_photos[0]?.urls.regular}
+              fill={true}
+              alt="image"
+              className="object-cover object-center bg-white"
+              style={{ backgroundColor: "white" }}
+            />
+          </div>
+          <div className="relative col-start-2 col-end-3 row-span-1 bg-red-500">
+            <Image
+              src={preview_photos[1]?.urls.regular}
+              fill={true}
+              alt="image"
+              className="object-cover object-center"
+            />
+          </div>
+          <div className="relative col-start-2 col-end-3 row-span-1 bg-red-500">
+            <Image
+              src={preview_photos[2]?.urls.regular}
+              fill={true}
+              alt="image"
+              className="object-cover object-center"
+            />
+          </div>
         </div>
-        <div className="relative col-start-2 col-end-3 row-span-1 bg-red-500">
-          <Image src={preview_photos[1]?.urls.regular} fill={true} alt="image" className="object-cover object-center" />
-        </div>
-        <div className="relative col-start-2 col-end-3 row-span-1 bg-red-500">
-          <Image src={preview_photos[2]?.urls.regular} fill={true} alt="image" className="object-cover object-center" />
-        </div>
-      </div>
+      </Link>
       {/* info */}
       <div className="flex items-start py-4">
         <div className="flex flex-col grow">
-          <h3 className="font-semibold text-xl text-slate-700 leading-none"> {title} </h3>
+          <h3 className="font-semibold text-xl text-slate-700 leading-none"> 
+            <Link href={`/@${user.username}`}> {title} </Link> 
+          </h3>
           <div className="text-sm mt-2 text-slate-500">
             Curated by{" "}
-            <Link href={""} className="hover:underline">
-              {" "}
+            <Link href={`/@${user.username}`} className="hover:underline">
               {user.name}
             </Link>
           </div>

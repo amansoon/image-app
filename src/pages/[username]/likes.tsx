@@ -48,7 +48,6 @@ const Likes: NextPageWithLayout = () => {
       });
       if (result.type === "success") {
         console.log(result);
-
         if (newUsername) {
           setTotalPhotos(result.response.total);
         }

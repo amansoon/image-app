@@ -45,6 +45,7 @@ const tabs = [
 
 function UserLayout({ children }: Props) {
   const [user, setUser] = useState<object | null>(null);
+  const [isUserLoading, setUserLoading] = useState(true);
   const router = useRouter();
   const username = useMemo(() => {
     const uname = router.query.username as string;
@@ -55,7 +56,7 @@ function UserLayout({ children }: Props) {
   }, [router.query.username]);
 
   useEffect(() => {
-    console.log("Username changed")
+    console.log("Username changed");
     if (username) {
       fetchUser();
     }
@@ -67,20 +68,28 @@ function UserLayout({ children }: Props) {
 
   const fetchUser = async () => {
     try {
+      setUserLoading(true);
       const result = await unsplash.users.get({ username });
       if (result.type === "success") {
         setUser(result.response);
+        setUserLoading(false);
       } else {
+        setUserLoading(false);
         setUser(null);
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error);
     }
   };
 
-  if (!user) {
-    return <PageNotFound />;
-  } else {
+  if (isUserLoading) {
+    return <div> User Loading....</div>
+  } 
+  else if(!isUserLoading && !user) {
+    return <PageNotFound />
+  }
+  else {
     return (
       <>
         <UserDetail user={user} />
