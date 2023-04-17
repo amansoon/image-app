@@ -9,12 +9,11 @@ import Link from "next/link";
 import { Award, Globe, Instagram, MapPin, Twitter } from "react-feather";
 import TabList from "./TabList";
 import Tab from "./Tab";
+import { Full as UserFull } from "unsplash-js/dist/methods/users/types";
 
 type Props = {
   children: React.ReactNode;
 };
-
-const users = ["@aman", "@meena", "@guru", "@radha"];
 
 const tabs = [
   {
@@ -44,7 +43,7 @@ const tabs = [
 ];
 
 function UserLayout({ children }: Props) {
-  const [user, setUser] = useState<object | null>(null);
+  const [user, setUser] = useState<UserFull>();
   const [isUserLoading, setUserLoading] = useState(true);
   const router = useRouter();
   const username = useMemo(() => {
@@ -75,7 +74,7 @@ function UserLayout({ children }: Props) {
         setUserLoading(false);
       } else {
         setUserLoading(false);
-        setUser(null);
+        setUser(undefined);
       }
     } 
     catch (error) {
@@ -86,7 +85,7 @@ function UserLayout({ children }: Props) {
   if (isUserLoading) {
     return <div> User Loading....</div>
   } 
-  else if(!isUserLoading && !user) {
+  else if(user === undefined) {
     return <PageNotFound />
   }
   else {
@@ -99,7 +98,12 @@ function UserLayout({ children }: Props) {
   }
 }
 
-const UserDetail = ({ user }: { user: object }) => {
+
+type UserDetailProps = {
+  user: UserFull;
+}
+
+const UserDetail = ({ user }: UserDetailProps) => {
   const {
     name,
     bio,

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Bookmark, Heart, Download } from "react-feather";
 import { Image as FeatherImage } from "react-feather";
+import { Basic as UserBasic, Full as UserFull } from "unsplash-js/dist/methods/users/types";
 
 const breakpointColumnsObj = {
   default: 3,
@@ -12,7 +13,7 @@ const breakpointColumnsObj = {
 };
 
 type Props = {
-  users: object[];
+  users: UserFull[];
 };
 
 export default function UsersGallery({ users }: Props) {
@@ -32,7 +33,7 @@ export default function UsersGallery({ users }: Props) {
 }
 
 type UserProps = {
-  user: object;
+  user: UserFull,
 };
 
 function User({ user }: UserProps) {

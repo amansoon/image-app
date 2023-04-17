@@ -3,9 +3,10 @@ import Masonry from "react-masonry-css";
 import Image from "next/image";
 import Link from "next/link";
 import { Image as FeatherImage } from "react-feather";
+import { Basic as CollectionBasic } from "unsplash-js/dist/methods/collections/types";
 
 type Props = {
-  collections: object[];
+  collections: CollectionBasic[];
 };
 
 const breakpointColumnsObj = {
@@ -23,7 +24,7 @@ export default function CollectionGallery({ collections }: Props) {
         columnClassName="my-masonry-grid_column"
       >
         {collections.map((collection, index) => {
-          return <Collection collection={collection} key={index} />
+          return <Collection collection={collection} key={index} />;
         })}
       </Masonry>
     </div>
@@ -31,7 +32,7 @@ export default function CollectionGallery({ collections }: Props) {
 }
 
 type CollectionProps = {
-  collection: object;
+  collection: CollectionBasic;
 };
 
 function Collection({ collection }: CollectionProps) {
@@ -44,7 +45,7 @@ function Collection({ collection }: CollectionProps) {
         <div className="w-full aspect-square grid grid-cols-2 grid-rows-2 gap-2 rounded-2xl overflow-hidden transition-all hover:brightness-75">
           <div className="relative col-start-1 col-end-2 row-span-2 bg-red-500">
             <Image
-              src={preview_photos[0]?.urls.regular}
+              src={preview_photos ? preview_photos[0].urls.regular : ""}
               fill={true}
               alt="image"
               className="object-cover object-center bg-white"
@@ -53,7 +54,7 @@ function Collection({ collection }: CollectionProps) {
           </div>
           <div className="relative col-start-2 col-end-3 row-span-1 bg-red-500">
             <Image
-              src={preview_photos[1]?.urls.regular}
+              src={preview_photos ? preview_photos[1].urls.regular : ""}
               fill={true}
               alt="image"
               className="object-cover object-center"
@@ -61,7 +62,7 @@ function Collection({ collection }: CollectionProps) {
           </div>
           <div className="relative col-start-2 col-end-3 row-span-1 bg-red-500">
             <Image
-              src={preview_photos[2]?.urls.regular}
+              src={preview_photos ? preview_photos[2].urls.regular : ""}
               fill={true}
               alt="image"
               className="object-cover object-center"
@@ -72,8 +73,8 @@ function Collection({ collection }: CollectionProps) {
       {/* info */}
       <div className="flex items-start py-4">
         <div className="flex flex-col grow">
-          <h3 className="truncate max-w-[300px] font-semibold text-xl text-slate-700"> 
-            <Link href={`/collections/${id}`}> {title} </Link> 
+          <h3 className="truncate max-w-[300px] font-semibold text-xl text-slate-700">
+            <Link href={`/collections/${id}`}> {title} </Link>
           </h3>
           <div className="text-sm mt-2 text-slate-500">
             Curated by{" "}
@@ -90,5 +91,5 @@ function Collection({ collection }: CollectionProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
