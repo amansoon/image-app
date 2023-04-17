@@ -13,18 +13,17 @@ import { authorizeUser } from "@/utils/authorize";
 type Props = {};
 
 function Header({}: Props) {
+
   const handleLogin = async () => {
-    return authorizeUser();
-    const client_id = process.env.NEXT_PUBLIC_API_KEY;
-
-    const redirect_uri = "http://localhost:3000/api/login/callback"
-    const scope = "public+read_user+read_photos+write_likes+write_followers+read_collections+write_collections"
-    const response_type = "code";
-
-    const BASE_URI = 'https://unsplash.com/oauth/authorize';
-    const OAUTH_URL = `${BASE_URI}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}`
-
-    window.open(OAUTH_URL)
+    authorizeUser();
+    // try {
+    //   const res = await fetch('/api/login/')
+    //   const data = await res.json()
+    //   console.log("Response = ", data)
+    // }
+    // catch(error) {
+    //   console.log(error)
+    // }
   };
 
   return (

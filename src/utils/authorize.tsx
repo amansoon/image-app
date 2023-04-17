@@ -11,5 +11,5 @@ export function authorizeUser() {
   });
 
   const oauth_url = `https://unsplash.com/oauth/authorize?${queryParams.toString()}&scope=${scope}`;
-  window.open(oauth_url, '_self');
+  window.open(oauth_url, '_parent');
 }

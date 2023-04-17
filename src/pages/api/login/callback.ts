@@ -6,6 +6,8 @@ type Data = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+  console.log("/login/callback called")
+
   if (!req.query.code) {
     return res.status(200).json({ data: { status: "code not get" } });
   }
@@ -32,7 +34,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
     if (response.status === 200) {
       const result = await response.json();
-      res.redirect('http://localhost:3000')
       res.status(200).json({ data: result });
     } 
     else {
