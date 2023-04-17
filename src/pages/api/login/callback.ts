@@ -24,19 +24,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     grant_type,
   });
 
-  const oauthURL = `https://unsplash.com/oauth/token?${queryParams.toString()}`;
-
-  console.log(oauthURL);
+  const oauth_url = `https://unsplash.com/oauth/token?${queryParams.toString()}`;
 
   try {
-    const response = await fetch(oauthURL, {
+    const response = await fetch(oauth_url, {
       method: "POST",
     });
-    const result = await response.json();
-    res.status(200).json({ data: result });
+    if (response.status === 200) {
+      const result = await response.json();
+      res.redirect('http://localhost:3000')
+      res.status(200).json({ data: result });
+    } 
+    else {
+      res.status(200).json({ data: { status: "unable to authorize" } });
+    }
   } catch (error) {
     console.log(error);
     res.status(200).json({ data: { status: "unable to authorizize" } });
   }
-  
 }

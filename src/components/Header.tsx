@@ -8,36 +8,23 @@ import React, { useRef, useState } from "react";
 import { User, Bell, Search, Menu } from "react-feather";
 import { useEffect } from "react";
 import Searchbar from "./Searchbar";
+import { authorizeUser } from "@/utils/authorize";
 
 type Props = {};
 
 function Header({}: Props) {
   const handleLogin = async () => {
-    // const BASE_URL = "https://unsplash.com/oauth/token";
+    return authorizeUser();
     const client_id = process.env.NEXT_PUBLIC_API_KEY;
-    const client_secret = process.env.NEXT_PUBLIC_API_SECRET;
 
-    
     const redirect_uri = "http://localhost:3000/api/login/callback"
     const scope = "public+read_user+read_photos+write_likes+write_followers+read_collections+write_collections"
     const response_type = "code";
 
     const BASE_URI = 'https://unsplash.com/oauth/authorize';
     const OAUTH_URL = `${BASE_URI}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}`
-    // const TOEKEN_URL = `${BASE_URL}?client_id=${ACCESS_KEY}&client_secret=${CLIENT_SECRET}&redirect_uri=${REDIRECT_URI}&code=${CODE}&grant_type=${PERMISSIONS}`;
 
     window.open(OAUTH_URL)
-
-    // try {
-    //   window
-    //   const res = await fetch(OAUTH_URL);
-    //   console.log("RESPONSE = ", res)
-    //   const data = await res.json();
-    //   console.log("DATA = ", data)
-    // } 
-    // catch (error) {
-    //   console.log(error);
-    // }
   };
 
   return (
